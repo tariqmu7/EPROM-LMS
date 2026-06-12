@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { BrandMark } from "./BrandMark";
 import { ButtonLink } from "./Button";
 
@@ -7,18 +8,18 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5">
         <BrandMark />
         <nav className="hidden items-center gap-7 text-sm font-medium text-muted md:flex">
-          <a href="/" className="hover:text-eprom-blue transition-colors">
+          <Link href="/" className="hover:text-eprom-blue transition-colors">
             Home
-          </a>
-          <a href="/catalog" className="hover:text-eprom-blue transition-colors">
+          </Link>
+          <Link href="/catalog" className="hover:text-eprom-blue transition-colors">
             Courses
-          </a>
-          <a
+          </Link>
+          <Link
             href="/course/centrifugal-pump-ops"
             className="hover:text-eprom-blue transition-colors"
           >
             Demo Course
-          </a>
+          </Link>
         </nav>
         <div className="flex items-center gap-3">
           <ButtonLink href="/catalog" variant="secondary" size="sm">
