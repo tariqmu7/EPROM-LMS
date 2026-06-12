@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# EPROM Academy — Interactive Training Platform (Prototype)
 
-## Getting Started
+A working prototype of a Udacity-style interactive training platform for EPROM, built to demonstrate
+that **PDFs, PowerPoint and physical site visits** can be replaced by **one interactive lesson** —
+3D equipment, 360° virtual site visits, live simulations, and built-in assessment.
 
-First, run the development server:
+Styled with the official EPROM brand from `EPROM-THEME.md`.
+
+## Run it
 
 ```bash
+npm install      # first time only
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open **http://localhost:3000**.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+> Requires a modern browser with WebGL (Chrome/Edge/Firefox) for the 3D model and 360° viewer.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## The 5-minute demo path (for the boss)
 
-## Learn More
+1. **Home** — the vision: "training you interact with, not just read", plus the
+   *old format → new experience* strip.
+2. **Browse the catalog** → open **Centrifugal Pump: Operation & Maintenance**.
+3. Click **Start lesson** to enter the interactive player, then step through with **Next →**:
+   - 📖 **Content slide** — replaces the PowerPoint/PDF page (with a diagram).
+   - 🎬 **Video** — embedded process animation.
+   - 🧊 **3D equipment** — drag to orbit, click the numbered hotspots (suction, discharge, impeller, seal).
+   - 🌐 **360° site visit** — drag to look around the pump house; click the markers.
+   - 🎛 **Live simulation** — move the **speed / valve / suction pressure** sliders and watch flow, head,
+     power and the operating point on the pump curve react. Drag suction pressure down to **trigger cavitation**.
+   - ✅ **Quiz** — answer, submit, see instant feedback and a score.
+   - 🛠 **Hands-on task** — re-order the pump start-up sequence and check it.
+   - 🏁 **Summary** — outcomes + your quiz score (progress persists across refresh via `localStorage`).
 
-To learn more about Next.js, take a look at the following resources:
+## How it's built
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Concern | Choice |
+|---|---|
+| Framework | Next.js 16 (App Router) + TypeScript |
+| Styling | Tailwind v4, EPROM tokens wired in `app/globals.css` |
+| 3D / 360° | three.js via `@react-three/fiber` + `@react-three/drei` |
+| Animation | `framer-motion` (slide transitions) |
+| Data | Mock content in `lib/courses.ts` — **no backend** |
+| Progress | `localStorage` (`lib/progress.ts`) |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Where things live
+- `lib/courses.ts` — the demo course content (edit this to change every slide).
+- `lib/types.ts` — the block/lesson model.
+- `components/blocks/*` — one component per interaction type.
+- `components/player/LessonPlayer.tsx` — the lesson player shell (rail, progress, nav).
+- `app/` — landing, catalog, course detail, and the `/learn` player route.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Prototype scope / what is *not* real yet
+By design, the prototype has **no authentication, database, or admin** — these are Phase 1 of the
+production roadmap. The 3D pump is built from primitives and the 360° scene is generated procedurally,
+so the demo runs fully offline; real CAD/`.glb` models and 360° site photography drop straight into
+`Model3DBlock` / `PanoramaBlock`. See the accompanying requirements document for the full plan.
